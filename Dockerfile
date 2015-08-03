@@ -20,12 +20,10 @@ ENV MAVEN_HOME /usr/share/maven
 RUN apt-get -y install git
 RUN apt-get -y install npm
 RUN git clone https://github.com/apache/incubator-zeppelin.git
-RUN cd incubator-zeppelin \
-	git reset --hard 2498e5df12ae8cc1b24375e253df94394710aaf8
 
 ADD warm_maven.sh /usr/local/bin/warm_maven.sh
 ADD scripts/start-script.sh /start-script.sh
 ADD scripts/configured_env.sh /configured_env.sh
-RUN /usr/local/bin/warm_maven.sh 
+RUN /usr/local/bin/warm_maven.sh
 
 EXPOSE 8080 8081
