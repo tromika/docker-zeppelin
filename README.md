@@ -12,14 +12,15 @@ It will run and link your zeppelin instance with spark_master container. You can
 
 To run zeppelin manually:
 
-Pull container:
+How to use the container:
 ```
-	docker pull epahomov/docker-zeppelin
+	git clone https://github.com/tromika/docker-zeppelin
+	docker build docker-zeppelin
 ```
 
 Run container:
 ```
-	docker run -i -t -p 8080:8080 -p 8081:8081 epahomov/docker-zeppelin /bin/bash
+	docker run -i -t -p 8080:8080 -p 8081:8081 docker-zeppelin /bin/bash
 ```
 
 Currently Zeppelin do not support -P version due to websocket functionality. There is [ticket](https://issues.apache.org/jira/browse/ZEPPELIN-10) for it.
