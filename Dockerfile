@@ -4,6 +4,7 @@ MAINTAINER Pakhomov Egor <pahomov.egor@gmail.com>
 
 ENV VERSION 0.23.0
 ENV PKG_RELEASE 1.0
+ENV MAVEN_VERSION 3.3.3
 
 RUN apt-get -y update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes software-properties-common python-software-properties
@@ -12,7 +13,7 @@ RUN apt-get -y update
 RUN /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install oracle-java7-installer oracle-java7-set-default
 
-ENV MAVEN_VERSION 3.3.1
+
 RUN apt-get -y install curl
 RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
   && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
