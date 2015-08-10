@@ -15,7 +15,7 @@ To run zeppelin manually:
 How to use the container:
 ```
 	git clone https://github.com/tromika/docker-zeppelin
-	docker build docker-zeppelin
+	docker build -t docker-zeppelin docker-zeppelin/
 ```
 
 Run container:
