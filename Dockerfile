@@ -2,6 +2,9 @@ FROM    ubuntu:14.04
 
 MAINTAINER Pakhomov Egor <pahomov.egor@gmail.com>
 
+ENV VERSION 0.23.0
+ENV PKG_RELEASE 1.0
+
 RUN apt-get -y update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes software-properties-common python-software-properties
 RUN apt-add-repository -y ppa:webupd8team/java
@@ -25,5 +28,15 @@ ADD warm_maven.sh /usr/local/bin/warm_maven.sh
 ADD scripts/start-script.sh /start-script.sh
 ADD scripts/configured_env.sh /configured_env.sh
 RUN /usr/local/bin/warm_maven.sh
+
+
+WORKDIR /tmp
+RUN \
+  apt-get install -y curl openjdk-6-jre-headless docker.io && \
+  curl -s -O https://downloads.mesosphere.io/master/ubuntu/14.04/mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
+  dpkg --unpack mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
+  apt-get install -f -y && \
+  rm mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
+  apt-get clean
 
 EXPOSE 8080 8081
