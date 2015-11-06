@@ -2,8 +2,8 @@ FROM    ubuntu:14.04
 
 MAINTAINER Pakhomov Egor <pahomov.egor@gmail.com>
 
-ENV VERSION 0.23.0
-ENV PKG_RELEASE 1.0
+ENV VERSION 0.25.0
+ENV PKG_RELEASE 0.2.70
 ENV MAVEN_VERSION 3.3.3
 
 RUN apt-get -y update
@@ -39,5 +39,16 @@ RUN \
   apt-get install -f -y && \
   rm mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
   apt-get clean
+
+RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.5.1-bin-hadoop2.6.tgz  | tar -xz -C /usr/local/
+RUN cd /usr/local && ln -s spark-1.5.1-bin-hadoop2.6 spark
+
+
+ENV SPARK_HOME /usr/local/spark
+ENV MESOS_NATIVE_LIBRARY /usr/lib/libmesos.so
+ENV PYTHONPATH $SPARK_HOME/python/:$PYTHONPATH
+ENV PYTHONPATH $SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip:$PYTHONPATH
+
+
 
 EXPOSE 8080 8081
