@@ -23,6 +23,7 @@ ENV MAVEN_HOME /usr/share/maven
 
 RUN apt-get -y install git
 RUN apt-get -y install npm
+RUN apt-get -y install libfontconfig
 RUN git clone https://github.com/apache/incubator-zeppelin.git
 
 ADD warm_maven.sh /usr/local/bin/warm_maven.sh
