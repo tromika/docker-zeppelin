@@ -14,7 +14,8 @@ RUN /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install oracle-java7-installer oracle-java7-set-default
 
 
-RUN apt-get -y install curl
+RUN apt-get -y install curl python-dev
+
 RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
   && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
@@ -28,7 +29,7 @@ RUN git clone https://github.com/apache/incubator-zeppelin.git
 
 
 
-RUN git pull https://github.com/felixcheung/incubator-zeppelin spark16
+RUN cd incubator-zeppelin  && git pull https://github.com/felixcheung/incubator-zeppelin spark16
 
 
 
@@ -37,6 +38,34 @@ ADD warm_maven.sh /usr/local/bin/warm_maven.sh
 ADD scripts/start-script.sh /start-script.sh
 ADD scripts/configured_env.sh /configured_env.sh
 RUN /usr/local/bin/warm_maven.sh
+
+
+# Configure environment
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+
+
+#Python install
+RUN cd /tmp && \
+    mkdir -p $CONDA_DIR && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
+    echo "6c6b44acdd0bc4229377ee10d52c8ac6160c336d9cdd669db7371aa9344e1ac3 *Miniconda3-3.9.1-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash Miniconda3-3.9.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-3.9.1-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda install --yes conda==3.14.1
+
+
+    # Install Python 2 packages
+RUN conda create -p $CONDA_DIR/envs/python2 python=2.7 \
+        'pandas=0.17*' \
+        'matplotlib=1.4*' \
+        'scipy=0.16*' \
+        'seaborn=0.6*' \
+        'bokeh=0.10*' \
+        'scikit-learn=0.16*' \
+        pyzmq \
+        && conda clean -yt
+
 
 
 WORKDIR /tmp
