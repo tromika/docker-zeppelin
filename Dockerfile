@@ -26,6 +26,13 @@ RUN apt-get -y install npm
 RUN apt-get -y install libfontconfig
 RUN git clone https://github.com/apache/incubator-zeppelin.git
 
+
+
+RUN git pull https://github.com/felixcheung/incubator-zeppelin spark16
+
+
+
+
 ADD warm_maven.sh /usr/local/bin/warm_maven.sh
 ADD scripts/start-script.sh /start-script.sh
 ADD scripts/configured_env.sh /configured_env.sh
@@ -34,22 +41,22 @@ RUN /usr/local/bin/warm_maven.sh
 
 WORKDIR /tmp
 RUN \
-  apt-get install -y curl openjdk-6-jre-headless docker.io && \
+  apt-get install -y curl  docker.io && \
   curl -s -O https://downloads.mesosphere.io/master/ubuntu/14.04/mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
   dpkg --unpack mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
   apt-get install -f -y && \
   rm mesos_${VERSION}-${PKG_RELEASE}.ubuntu1404_amd64.deb && \
   apt-get clean
 
-RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.5.1-bin-hadoop2.6.tgz  | tar -xz -C /usr/local/
-RUN cd /usr/local && ln -s spark-1.5.1-bin-hadoop2.6 spark
+RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.6.0-bin-hadoop2.6.tgz  | tar -xz -C /usr/local/
+RUN cd /usr/local && ln -s spark-1.6.0-bin-hadoop2.6 spark
 
 
 ENV SPARK_HOME /usr/local/spark
 ENV MESOS_NATIVE_LIBRARY /usr/lib/libmesos.so
 ENV PYTHONPATH $SPARK_HOME/python/:$PYTHONPATH
-ENV PYTHONPATH $SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip:$PYTHONPATH
-
+ENV PYTHONPATH $SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/
 
 
 EXPOSE 8080 8081
