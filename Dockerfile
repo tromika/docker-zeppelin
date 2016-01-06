@@ -14,7 +14,7 @@ RUN /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install oracle-java7-installer oracle-java7-set-default
 
 
-RUN apt-get -y install curl python-dev
+RUN apt-get -y install curl
 
 RUN curl -sSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
   && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
@@ -55,7 +55,7 @@ RUN cd /tmp && \
 
 
     # Install Python 2 packages
-RUN conda create -p $CONDA_DIR/envs/python2 python=2.7 \
+RUN conda install \
         'pandas=0.17*' \
         'matplotlib=1.4*' \
         'scipy=0.16*' \
