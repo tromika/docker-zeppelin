@@ -29,11 +29,6 @@ RUN git clone https://github.com/apache/incubator-zeppelin.git
 
 
 
-RUN cd incubator-zeppelin  && git pull https://github.com/felixcheung/incubator-zeppelin spark16
-
-
-
-
 ADD warm_maven.sh /usr/local/bin/warm_maven.sh
 ADD scripts/start-script.sh /start-script.sh
 ADD scripts/configured_env.sh /configured_env.sh
