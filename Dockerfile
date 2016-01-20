@@ -47,7 +47,7 @@ RUN cd /tmp && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda-latest-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda install --yes
+    $CONDA_DIR/bin/conda install --yes conda
 
 
     # Install Python 2 packages
