@@ -44,6 +44,7 @@ RUN /usr/local/bin/warm_maven.sh
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 
+RUN apt-get install -y --force-yes gfortran libopenblas-dev liblapack-dev
 
 #Python install
 RUN cd /tmp && \
@@ -62,6 +63,7 @@ RUN conda install \
         'seaborn=0.6*' \
         'bokeh=0.10*' \
         'scikit-learn=0.16*' \
+        statsmodels \
         pyzmq \
         && conda clean -yt
 
