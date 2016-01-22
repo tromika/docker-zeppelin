@@ -26,6 +26,7 @@ RUN apt-get -y install git
 RUN apt-get -y install npm
 RUN apt-get -y install libfontconfig
 RUN git clone https://github.com/apache/incubator-zeppelin.git
+RUN cd incubator-zeppelin  && git pull https://github.com/tromika/incubator-zeppelin customjs
 
 
 
