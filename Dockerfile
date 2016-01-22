@@ -60,10 +60,34 @@ RUN conda install \
         'bokeh=0.10*' \
         'scikit-learn=0.16*' \
         statsmodels \
+        rpy2 \
         pyzmq \
         && conda clean -yt
 
+# R pre-requisites & gfortran installed before
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libxrender1 \
+    fonts-dejavu \
+    gcc && apt-get clean
 
+RUN conda install --yes \
+    'r-base=3.2*' \
+    'r-plyr=1.8*' \
+    'r-devtools=1.8*' \
+    'r-dplyr' \
+    'r-ggplot2=1.0*' \
+    'r-tidyr=0.2*' \
+    'r-rmarkdown=0.7*' \
+    'r-forecast=6.2*' \
+    'r-stringr=0.6*' \
+    'r-reshape2=1.4*' \
+    'r-caret=6.0*' \
+    'r-lubridate' \
+    'r-data.table' \
+    'r-lazyeval' \
+    'r-rcurl=1.95*' \
+    'r-randomforest=4.6*' && conda clean -yt
 
 WORKDIR /tmp
 RUN \
